@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".NewPostFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+
+                tools:text="Силосные фильтры серии LSF являются оптимальным решением проблемы очистки запыленного воздуха, отводимого от закрытых емкостей хранения сыпучих материалов, а также от отдельных узлов технологического оборудования. Высокоэффективно применение фильтров LSF в тех случаях, когда протяженность технологической линии, большие расстояния между отдельными агрегатами, как по площади, так и по высоте, делают нецелесообразной устройство одной централизованной системы аспирации.
+
+Фильтры LSF могут эксплуатироваться в тяжелых условиях для фильтрации мелкодисперсных, абразивных и агрессивных запылений.
+
+Фильтры серии LSF предназначены для работы в условиях средней и высокой входной запыленности.
+
+Особенности фильтров.
+
+Круглый корпус и оптимальное расстояние между рукавами позволяют равномерно распределяться очищаемому воздуху;
+Возможность установки в качестве фильтроэлементов как цилиндрических рукавов, так и гофрированных картриджей для одного и того же корпуса, расширяя диапазон применения как по воздушной нагрузке, так и по начальной концентрации загрязняющих веществ.
+Вертикальное расположение фильтроэлементов
+Два варианта исполнения фильтра:
+— с присоединительным фланцем в нижней части корпуса, с помощью которого фильтр устанавливается на патрубок отверстия в крыше обслуживаемого силоса;
+
+— с опорными конструкциями, накопительным бункером и разгрузочным механизмом, позволяющее использовать данный фильтр как отдельно стоящий, с присоединением к нему аспирационного воздуховода от технологического оборудования и выгрузкой уловленной пыли в собственную емкость, либо в централизованную систему транспортировки пыли.
+
+В фильтрах LSF применяется наиболее эффективный на данный момент способ регенерации фильтроэлементов – импульсная продувка сжатым воздухом, позволяющая очистить наружную поверхность фильтровального материала даже от слеживающихся и слипающихся пылей.
+В стандартную комплектацию входит:
+
+Цилиндрический корпус с высококачественным многослойным антикоррозионным покрытием;
+Пневматическая система регенерации фильтровальных элементов с автоматикой управления с возможностью настройки.
+Комплект фильтроэлементов – рукавов с проволочным каркасом, либо гофрированных картриджей из высококачественного фильтровального материала, подбираемого индивидуально под особенности объекта заказчика.
+В дополнительную комплектацию может входить:
+
+Оснащение вентилятором
+Оснащение опорными конструкциями и накопительным бункером с требуемыми устройствами выгрузки;
+Высокотемпературное исполнение до 240°С;
+Взрывозащищенное исполнение;
+Теплоизоляция корпуса;
+Система обогрева пневмоклапанов;
+Площадка обслуживания;
+Другие опции по требованиям заказчика." />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_post_save"
+        app:srcCompat="@drawable/ic_ok_24"
+        app:layout_anchor="@id/bottomAppBar"
+        />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

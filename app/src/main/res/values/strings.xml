@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">NMedia</string>
+    <string name="menu_remove">Remove</string>
+    <string name="menu_edit">Edit</string>
+    <string name="post_text">Enter post text</string>
+    <string name="description_post_like">Like</string>
+    <string name="error_empty_content">Content cannot be empty</string>
+    <string name="edit_message">Edit Message</string>
+    <string name="share_post">Share post</string>
+    <string name="description_post_save">Save</string>
+    <string name="add_post">Add post</string>
+    <string name="video_chooser">Select an application</string>
+    <string name="error_loading">Something went wrong. Try again later</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+</resources>

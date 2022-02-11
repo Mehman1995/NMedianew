@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="indent">20dp</dimen>
+    <dimen name="avatar_height">48dp</dimen>
+    <dimen name="avatar_width">48dp</dimen>
+    <dimen name="indent_icon_count">10dp</dimen>
+    <dimen name="common_spacing">16dp</dimen>
+    <dimen name="edit_notification_marginStart">40dp</dimen>
+    <dimen name="edit_notification_marginEnd">25dp</dimen>
+    <dimen name="edit_notification_paddingStart">20dp</dimen>
+    <dimen name="image_edit_width">32dp</dimen>
+    <dimen name="image_edit_height">50dp</dimen>
+    <dimen name="edit_notification_padding">5dp</dimen>
+    <dimen name="floatingAction_margin">30dp</dimen>
+</resources>
