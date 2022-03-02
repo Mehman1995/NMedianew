@@ -71,7 +71,6 @@ class FeedFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
                 val videoIntent = Intent.createChooser(intent, getString(R.string.video_chooser))
                 startActivity(videoIntent)
-
             }
 
             override fun onPost(post: Post) {
@@ -95,12 +94,7 @@ class FeedFragment : Fragment() {
             binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
         } )
-//        { posts ->
-//            val listComparison = adapter.itemCount < posts.size
-//            adapter.submitList(posts) {
-//                if (listComparison) binding.list.scrollToPosition(0) //автоскроллинг при добавлении постов
-//            }
-//        }
+
 
         binding.retryButton.setOnClickListener {
             viewModel.loadPosts()

@@ -51,8 +51,7 @@ class PostViewHolder(
             share.text = Utils.reductionInNumbers(post.sharesCount)
             like.isChecked = post.likedByMe
 
-            if (!post.video.isNullOrBlank()) group.visibility = View.VISIBLE //можно ли сделать так,
-            // чтобы не отображалось видео вью или только с изменениями на серваке?
+            if (!post.video.isNullOrBlank()) group.visibility = View.VISIBLE
 
             like.setOnClickListener {
                 postCallback.onLike(post)
