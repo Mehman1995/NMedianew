@@ -20,7 +20,8 @@
         app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_netology" />
+        app:srcCompat="@drawable/ic_netology"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"

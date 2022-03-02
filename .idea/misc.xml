@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_avatar_placeholder.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_error.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_like_24dp.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_netology.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_programmyi_dlya_sozdaniya_avatarok.xml" value="0.2796296296296296" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/activity_app.xml" value="0.21510416666666668" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/card_post.xml" value="0.21510416666666668" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_feed.xml" value="0.11775362318840579" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_post.xml" value="0.21510416666666668" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/test/app/src/main/res/layout/fragment_feed.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/test/app/src/main/res/layout/fragment_single_post.xml" value="0.264945652173913" />
       </map>
