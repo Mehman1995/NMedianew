@@ -3,12 +3,15 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
+import ru.netology.nmedia.dto.AttachmentType
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.utils.Utils
 
@@ -51,7 +54,27 @@ class PostViewHolder(
             share.text = Utils.reductionInNumbers(post.sharesCount)
             like.isChecked = post.likedByMe
 
+            Glide.with(avatar)
+                .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
+                .circleCrop()
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .timeout(10_000)
+                .error(R.drawable.ic_error)
+                .into(avatar)
+
+
+                when (post.attachment?.type){
+                    AttachmentType.IMAGE ->{
+                        Glide.with(viewForImage)
+                            .load("http://10.0.2.2:9999/images/${post.attachment?.url}")
+                            .timeout(10_000)
+                            .into(viewForImage)
+                    }
+                   // если добавить ветку else, то что указать?
+                }
+
             if (!post.video.isNullOrBlank()) group.visibility = View.VISIBLE
+            if (post.attachment != null) viewForImage.visibility = View.VISIBLE
 
             like.setOnClickListener {
                 postCallback.onLike(post)

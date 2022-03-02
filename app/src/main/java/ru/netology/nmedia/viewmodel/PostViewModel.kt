@@ -13,6 +13,7 @@ import ru.netology.nmedia.utils.SingleLiveEvent
 private val emptyPost = Post(
     id = 0,
     author = "",
+    authorAvatar = "",
     content = "",
     published = "",
     likes = 0,
@@ -31,6 +32,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postCreated: LiveData<Unit>
         get() = _postCreated
     val old = _data.value?.posts.orEmpty()
+    val avatars = emptyList<String>()
 
     init {
         loadPosts()
@@ -58,7 +60,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onError(e: Exception) {
-                    _data.value //?? что сюда писать?
+                    _data.postValue(_data.value?.copy(posts = old))
                 }
             })
         }
