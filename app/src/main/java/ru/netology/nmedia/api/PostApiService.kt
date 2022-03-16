@@ -1,37 +1,52 @@
 package ru.netology.nmedia.api
 
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.repository.PostRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import ru.netology.nmedia.BuildConfig
 
 private const val BASE_URL = "http://10.0.2.2:9999/api/"
+
+private val logging = HttpLoggingInterceptor().apply {
+    if (BuildConfig.DEBUG) {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+}
+
+private val okhttp = OkHttpClient.Builder()
+    .addInterceptor(logging)
+    .build()
+
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
+    .client(okhttp)
     .build()
+
 
 interface PostApiService {
     @GET("posts")
-    fun getAll() : Call<List<Post>>
+    suspend fun getAll() : Response<List<Post>>
 
     @POST("posts/{id}/likes")
-    fun likedById(@Path("id") id: Long) : Call<Post>
+    suspend fun likedById(@Path("id") id: Long) : Response<Post>
 
     @DELETE("posts/{id}/likes")
-    fun unlikeById(@Path("id") id: Long) : Call<Post>
+    suspend fun unlikeById(@Path("id") id: Long) : Response<Post>
 
     @DELETE("posts/{id}")
-    fun removeById(@Path("id") id: Long) : Call<Unit>
+    suspend fun removeById(@Path("id") id: Long) : Response<Unit>
 
     @POST("posts")
-    fun save(@Body post: Post): Call<Post>
+    suspend fun save(@Body post: Post): Response<Post>
 }
 
 object PostApi {
-    val retrofitService by lazy {
+    val retrofitService: PostApiService by lazy {
         retrofit.create(PostApiService::class.java)
     }
 }

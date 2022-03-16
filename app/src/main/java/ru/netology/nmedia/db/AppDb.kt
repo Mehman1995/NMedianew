@@ -12,7 +12,7 @@ import ru.netology.nmedia.entity.PostEntity
 
 @Database(entities = [PostEntity::class, DraftEntity::class], version = 1, exportSchema = false)
 abstract class AppDb : RoomDatabase() {
-    abstract val postDao: PostDao
+    abstract fun postDao(): PostDao
 
     companion object {
         @Volatile
@@ -25,7 +25,7 @@ abstract class AppDb : RoomDatabase() {
         }
 
         private fun buildDataBase(context: Context) = Room.databaseBuilder(context, AppDb::class.java, "app.db")
-            .allowMainThreadQueries()
+//            .allowMainThreadQueries()
             .build()
     }
 }

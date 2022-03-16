@@ -2,6 +2,7 @@ package ru.netology.nmedia.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import ru.netology.nmedia.entity.DraftEntity
 
 
@@ -13,57 +14,38 @@ interface PostDao {
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getAll(): LiveData<List<PostEntity>>
 
-    @Insert
-    fun insert(post: PostEntity)
+    @Insert(onConflict = REPLACE)
+    suspend fun insert(post: PostEntity)
+
+    @Insert(onConflict = REPLACE)
+    suspend fun insert(post: List<PostEntity>)
 
     @Query("UPDATE PostEntity SET content = :content WHERE id = :id")
     fun update(id: Long, content: String)
 
-    fun save(post: PostEntity) = if (post.id == 0L) insert(post) else update(post.id, post.content)
-
-    @Query(
-        """
-            UPDATE PostEntity SET 
-                likesCount = likesCount + CASE WHEN likedByMe THEN -1 ELSE 1 END,
-                likedByMe = CASE WHEN likedByMe THEN 0 else 1 END
-                WHERE id = :id
-        """
-    )
-    fun likedById(id: Long)
-
+    suspend fun save(post: PostEntity) = if (post.id == 0L) insert(post) else update(post.id, post.content)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
-    fun removeById(id: Long)
+    suspend fun removeById(id: Long)
 
+ @Query(
+        """
+           UPDATE PostEntity SET
+               `likesCount` = `likesCount` + 1,
+               likedByMe = 1
+           WHERE id = :id AND likedByMe = 0;
+        """,
+    )
+   suspend fun likedById(id: Long)
 
     @Query(
         """
-        UPDATE PostEntity SET
-        sharesCount = sharesCount + 1,
-        share = 1
-        WHERE id = :id
-    """)
-    fun shareById(id: Long)
-
-    @Query("DELETE FROM DraftEntity")
-    fun deleteDraft()
-
-    @Insert
-    fun insertDraft(draft: DraftEntity?)
-
-    fun saveDraft(draft: String?) {
-        if (draft == null) {
-            deleteDraft()
-        } else {
-            var id = 0L
-            val countId = ++id // Как сделать, чтобы id был всегда разный TODO
-            val draftEntity = DraftEntity(id = countId, content = draft)
-            insertDraft(draftEntity)
-        }
-    }
-
-
-    @Query("SELECT content FROM DraftEntity ")
-    fun getDraft(): String?
+           UPDATE PostEntity SET
+               `likesCount` = `likesCount` - 1,
+               likedByMe = 0
+           WHERE id = :id AND likedByMe = 1;
+        """,
+    )
+    suspend fun unlikedById(id: Long)
 
 }

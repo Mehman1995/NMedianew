@@ -16,12 +16,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.card_post.*
 import kotlinx.android.synthetic.main.card_post.view.*
 import kotlinx.android.synthetic.main.fragment_feed.*
 import ru.netology.nmedia.adapter.PostCallback
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
+import ru.netology.nmedia.enumeration.RetryType
 
 
 class FeedFragment : Fragment() {
@@ -94,15 +96,35 @@ class FeedFragment : Fragment() {
             adapter.submitList(state.posts) {
                 if (listComparison) binding.list.scrollToPosition(0)
             }
-            binding.progress.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
         } )
 
-
-        binding.retryButton.setOnClickListener {
-            viewModel.loadPosts()
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry_loading) {
+                        when (state.retryType) {
+                            RetryType.SAVE -> viewModel.retrySave(state.retryPost)
+                            RetryType.REMOVE -> viewModel.removeById(state.retryId)
+                            RetryType.LIKE -> viewModel.likeById(state.retryId)
+                            RetryType.UNLIKE -> viewModel.unlikeById(state.retryId)
+                            else -> viewModel.refreshPosts()
+                        }
+                    }
+                    .show()
+            }
         }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
+        }
+
+//
+//        binding.retryButton.setOnClickListener {
+//            viewModel.loadPosts()
+//        }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
