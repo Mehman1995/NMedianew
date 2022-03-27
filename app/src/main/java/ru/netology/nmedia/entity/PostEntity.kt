@@ -19,7 +19,8 @@ data class PostEntity(
     val likedByMe: Boolean = false,
     val share: Boolean = false,
     val sharesCount: Int = 0,
-    val video: String? = ""
+    val video: String? = "",
+    val viewed: Boolean = false
 ) {
     fun toDto() =
         Post(
@@ -46,7 +47,8 @@ data class PostEntity(
                 post.likedByMe,
                 post.share,
                 post.sharesCount,
-                post.video
+                post.video,
+                post.viewed
             )
     }
 }

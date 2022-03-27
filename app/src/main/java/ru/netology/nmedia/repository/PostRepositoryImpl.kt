@@ -7,8 +7,13 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toEntity
 import androidx.lifecycle.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import okhttp3.Dispatcher
 import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.error.ApiError
+import ru.netology.nmedia.error.AppError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
 import java.io.IOException
@@ -16,7 +21,9 @@ import java.io.IOException
 
 class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
 
-    override val data: LiveData<List<Post>> = postDao.getAll().map { it.toDto() }
+    override val data: Flow<List<Post>> = postDao.getAll()
+        .map { it.toDto() }
+        .flowOn(Dispatchers.Default)
 
     override suspend fun getAll() {
         try {
@@ -25,7 +32,9 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw Exception()
-            postDao.insert(body.toEntity())
+            postDao.insert(body.toEntity().map {
+                it.copy(viewed = true)
+            })
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -33,16 +42,45 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         }
     }
 
+    override suspend fun getNewPosts() {
+        try {
+            postDao.setPostsViewed()
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError()
+        }
+    }
+
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
+        while (true){
+            delay(10_000L)
+
+            val response = PostApi.retrofitService.getNewer(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw Exception()
+            postDao.insert(body.toEntity().map {
+                it.copy(viewed = false)
+            })
+            emit(body.size)
+        }
+    }
+        .catch { e -> throw AppError.from(e) }
+        .flowOn(Dispatchers.Default)
+
     override suspend fun likedById(id: Long) {
         try {
             postDao.likedById(id)
+            postDao.setPostsViewed()
             val response =  PostApi.retrofitService.likedById(id)
             if (!response.isSuccessful){
                 throw ApiError(response.code(), response.message())
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(body))
+            postDao.insert(PostEntity.fromDto(body).copy(viewed = true))
         }
         catch (e: IOException) {
             throw NetworkError
@@ -59,7 +97,7 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
             val data = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(data))
+            postDao.insert(PostEntity.fromDto(data).copy(viewed = true))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -90,7 +128,7 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(body))
+            postDao.insert(PostEntity.fromDto(body).copy(viewed = true))
 
         } catch (e: IOException) {
             throw NetworkError

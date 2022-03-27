@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_like_24dp.xml" value="0.27037037037037037" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_netology.xml" value="0.27037037037037037" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_ok_24.xml" value="0.27037037037037037" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/activity_app.xml" value="0.1" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_feed.xml" value="0.1" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_new_post.xml" value="0.13272543059777103" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_post.xml" value="0.27291666666666664" />
       </map>
     </option>
   </component>
