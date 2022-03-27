@@ -19,7 +19,7 @@ data class PostEntity(
     val likedByMe: Boolean = false,
     val share: Boolean = false,
     val sharesCount: Int = 0,
-    val video: String = ""
+    val video: String? = ""
 ) {
     fun toDto() =
         Post(
@@ -31,8 +31,7 @@ data class PostEntity(
             likesCount,
             likedByMe,
             share,
-            sharesCount,
-            video
+            sharesCount
         )
 
     companion object {
@@ -59,18 +58,6 @@ data class DraftEntity(
     val content: String
 )
 
-
-//data class AttachmentEmbeddable(
-//    var url: String,
-//    var description: String,
-//    var type: AttachmentType,
-//) {
-//    fun toDto() = Attachment(url, description, type)
-//
-//    companion object {
-//        fun fromDto(dto: Attachment?) = dto?.let {
-//            AttachmentEmbeddable(it.url, it.description, it.type)
-//        }
-//    }
-//}
+fun List<PostEntity>.toDto() = map(PostEntity::toDto)
+fun List<Post>.toEntity() = map(PostEntity::fromDto)
 

@@ -5,28 +5,16 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.DraftEntity
 
 interface PostRepository {
-    fun likedById(id: Long, callback: PostCallback)
-    fun unlikeById(id: Long, callback: PostCallback)
-    fun shareById(id: Long)
-    fun removeById(id: Long, callback: IdCall)
-    fun save(post: Post, callback: PostCallback)
-    fun saveDraft(draft: String?)
-    fun getDraft() :String?
-    fun getAll(callback: GetAllCallback)
+    val data : LiveData<List<Post>>
 
-    interface GetAllCallback {
-        fun onSuccess(posts: List<Post>) {}
-        fun onError(e: Exception) {}
-    }
-
-    interface PostCallback {
-        fun onSuccess(post: Post) {}
-        fun onError(e: Exception) {}
-    }
-
-    interface IdCall{
-        fun onSuccess(unit: Unit) {}
-        fun onError(e: Exception) {}
-    }
+    suspend fun likedById(id: Long)
+    suspend fun unlikeById(id: Long)
+    suspend fun shareById(id: Long)
+    suspend fun removeById(id: Long)
+    suspend fun save(post: Post)
+    suspend fun saveDraft(draft: String?)
+    suspend fun getDraft()
+    suspend fun getAll()
 
 }
+
