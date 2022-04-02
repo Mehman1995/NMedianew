@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
@@ -83,6 +84,11 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_singlePost, bundle)
             }
 
+            override fun onImage(post: Post) {
+                bundle.putString("url", post.attachment?.url)
+                findNavController().navigate(R.id.action_feedFragment_to_singleImageFragment, bundle)
+            }
+
         })
 
         binding.list.adapter = adapter
@@ -149,6 +155,7 @@ class FeedFragment : Fragment() {
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+
 
         binding.swiperefresh.setOnRefreshListener{
             viewModel.loadPosts()

@@ -51,6 +51,8 @@ class SinglePostFragment : Fragment() {
                 }
                 like.isChecked = singlePost?.likedByMe == true
                 if (singlePost?.video != "") binding.group.visibility = View.VISIBLE
+                if (singlePost?.attachment != null) viewForImage.visibility = View.VISIBLE
+
 
             }
         }

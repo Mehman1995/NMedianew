@@ -1,6 +1,7 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.*
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
@@ -13,8 +14,11 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.db.AppDb
+import ru.netology.nmedia.dto.MediaUpload
 import ru.netology.nmedia.enumeration.RetryType
 import ru.netology.nmedia.model.FeedModelState
+import ru.netology.nmedia.model.PhotoModel
+import java.io.File
 
 private val emptyPost = Post(
     id = 0,
@@ -32,10 +36,14 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
 
-    private val _data = repository.data.map { FeedModel(posts = it, empty = it.isEmpty()) }
-    val data: LiveData<FeedModel>
-        get() = _data.asLiveData(Dispatchers.Default)
+//    private val _data = repository.data.map { FeedModel(posts = it, empty = it.isEmpty()) }
+//    val data: LiveData<FeedModel>
+//        get() = _data.asLiveData(Dispatchers.Default)
     //на вебинаре было по другому, если чо исправить
+
+    val data: LiveData<FeedModel> = repository.data
+        .map(::FeedModel)
+        .asLiveData(Dispatchers.Default)
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
@@ -51,6 +59,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             .catch { e -> _dataState.postValue(FeedModelState(error = true)) }
             .asLiveData(Dispatchers.Default)
     }
+
+    private val noPhoto = PhotoModel()
+    private val _photo = MutableLiveData(noPhoto)
+    val photo: LiveData<PhotoModel>
+        get() = _photo
 
     init {
         loadPosts()
@@ -101,17 +114,25 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun save() {
         edited.value?.let {
+            _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    _postCreated.value = Unit
-                    repository.save(it)
+                    when(_photo.value){
+                        noPhoto -> repository.save(it)
+                        else -> _photo.value?.file?.let { file ->
+                            repository.saveWithAttachment(it, MediaUpload(file))
+                        }
+                    }
                     _dataState.value = FeedModelState()
+                    edited.value = emptyPost
+                    _photo.value = noPhoto
                 } catch (e: Exception) {
                     _dataState.value = FeedModelState(error = true)
                 }
             }
         }
-        edited.value = emptyPost
+//        edited.value = emptyPost
+//        _photo.value = noPhoto
 
     }
 
@@ -156,6 +177,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _dataState.value =
                 FeedModelState(error = true, retryType = RetryType.REMOVE, retryId = id)
         }
+    }
+
+    fun changePhoto(uri: Uri?, file: File?) {
+        _photo.value = PhotoModel(uri, file)
     }
 
 

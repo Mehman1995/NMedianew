@@ -13,4 +13,6 @@
     <dimen name="edit_notification_padding">5dp</dimen>
     <dimen name="floatingAction_margin">30dp</dimen>
     <dimen name="new_entry_radius">100dp</dimen>
+    <dimen name="icon_button_padding">12dp</dimen>
+    <dimen name="icon_button_min_size">48dp</dimen>
 </resources>
