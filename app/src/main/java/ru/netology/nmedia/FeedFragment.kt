@@ -1,7 +1,6 @@
 package ru.netology.nmedia
 
 import android.content.Intent
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,17 +12,16 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.card_post.*
 import kotlinx.android.synthetic.main.card_post.view.*
 import kotlinx.android.synthetic.main.fragment_feed.*
+import kotlinx.android.synthetic.main.fragment_feed.view.*
 import ru.netology.nmedia.adapter.PostCallback
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.enumeration.RetryType
+import ru.netology.nmedia.R.string.new_posts
 
 
 class FeedFragment : Fragment() {
@@ -117,14 +115,29 @@ class FeedFragment : Fragment() {
             }
         }
 
-        binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+        viewModel.newerCount.observe(viewLifecycleOwner) {
+            with(binding.newEntry) {
+                if (it > 0) {
+                    text = "${getString(new_posts)} $it"
+                    visibility = View.VISIBLE
+                }
+            }
         }
 
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
+            binding.newEntry.visibility = View.GONE
+        }
+
+        binding.newEntry.setOnClickListener {
+            binding.newEntry.visibility = View.GONE
+            viewModel.loadNewPosts()
+        }
 //
 //        binding.retryButton.setOnClickListener {
 //            viewModel.loadPosts()
 //        }
+
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {

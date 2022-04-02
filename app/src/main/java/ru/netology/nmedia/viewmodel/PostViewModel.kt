@@ -8,6 +8,9 @@ import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
 import ru.netology.nmedia.utils.SingleLiveEvent
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.enumeration.RetryType
@@ -31,7 +34,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _data = repository.data.map { FeedModel(posts = it, empty = it.isEmpty()) }
     val data: LiveData<FeedModel>
-        get() = _data
+        get() = _data.asLiveData(Dispatchers.Default)
+    //на вебинаре было по другому, если чо исправить
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
@@ -41,6 +45,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
+
+    val newerCount: LiveData<Int> = data.switchMap {
+        repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
+            .catch { e -> _dataState.postValue(FeedModelState(error = true)) }
+            .asLiveData(Dispatchers.Default)
+    }
 
     init {
         loadPosts()
@@ -56,6 +66,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun loadNewPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.getNewPosts()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
     fun refreshPosts() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(refreshing = true)

@@ -14,4 +14,5 @@
     <string name="error_loading">Что-то пошло не так. Повторите попытку позже</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_posts">Здесь нет никаких постов.\\nЕсли вы создадите новую запись, она появится здесь</string>
+    <string name="new_posts">свежие записи</string>
 </resources>
