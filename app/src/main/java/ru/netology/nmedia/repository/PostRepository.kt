@@ -1,33 +1,30 @@
 package ru.netology.nmedia.repository
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
+import ru.netology.nmedia.dto.Media
+import ru.netology.nmedia.dto.MediaUpload
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.User
 import ru.netology.nmedia.entity.DraftEntity
+import java.io.File
+import java.net.URI
 
 interface PostRepository {
-    fun getAll(): List<Post>
-    fun likedById(id: Long, callback: PostCallback)
-    fun unlikeById(id: Long, callback: PostCallback)
-    fun shareById(id: Long)
-    fun removeById(id: Long, callback: IdCall)
-    fun save(post: Post, callback: PostCallback)
-    fun saveDraft(draft: String?)
-    fun getDraft() :String?
-    fun getAllAsync(callback: GetAllCallback)
+    val data: Flow<List<Post>>
 
-    interface GetAllCallback {
-        fun onSuccess(posts: List<Post>) {}
-        fun onError(e: Exception) {}
-    }
+    suspend fun likedById(id: Long)
+    suspend fun unlikeById(id: Long)
+    suspend fun shareById(id: Long)
+    suspend fun removeById(id: Long)
+    suspend fun save(post: Post)
+    suspend fun saveDraft(draft: String?)
+    suspend fun getDraft()
+    suspend fun getAll()
 
-    interface PostCallback {
-        fun onSuccess(post: Post) {}
-        fun onError(e: Exception) {}
-    }
-
-    interface IdCall{
-        fun onSuccess(id: Long) {}
-        fun onError(e: Exception) {}
-    }
+    fun getNewerCount(id: Long): Flow<Int>
+   suspend fun getNewPosts()
+   suspend fun saveWithAttachment(post: Post, upload: MediaUpload)
+   suspend fun upload(upload: MediaUpload) : Media
 
 }
+

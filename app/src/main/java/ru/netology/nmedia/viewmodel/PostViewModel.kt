@@ -1,19 +1,32 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.net.Uri
+import androidx.lifecycle.*
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
 import ru.netology.nmedia.utils.SingleLiveEvent
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import ru.netology.nmedia.api.PostApi
+import ru.netology.nmedia.auth.AppAuth
+import ru.netology.nmedia.db.AppDb
+import ru.netology.nmedia.dto.MediaUpload
+import ru.netology.nmedia.enumeration.RetryType
+import ru.netology.nmedia.model.FeedModelState
+import ru.netology.nmedia.model.PhotoModel
+import java.io.File
 
 private val emptyPost = Post(
     id = 0,
     author = "",
     authorAvatar = "",
+    authorId = 0,
     content = "",
     published = "",
     likes = 0,
@@ -23,48 +36,110 @@ private val emptyPost = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryImpl()
-    private val _data = MutableLiveData(FeedModel())
-    val data: LiveData<FeedModel>
-        get() = _data
+    private val repository: PostRepository =
+        PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
+
+    val data: LiveData<FeedModel> = AppAuth.getInstance()
+        .authStateFlow
+        .flatMapLatest { (myId, _) ->
+            repository.data
+                .map { posts ->
+                    FeedModel(
+                        posts.map { it.copy(ownedByMe = it.authorId == myId) },
+                        posts.isEmpty()
+                    )
+                }
+        }.asLiveData(Dispatchers.Default)
+
+    private val _dataState = MutableLiveData<FeedModelState>()
+    val dataState: LiveData<FeedModelState>
+        get() = _dataState
+
     val edited = MutableLiveData(emptyPost)
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
-    val old = _data.value?.posts.orEmpty()
-    val avatars = emptyList<String>()
+
+    val newerCount: LiveData<Int> = data.switchMap {
+        repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
+            .catch { e -> _dataState.postValue(FeedModelState(error = true)) }
+            .asLiveData(Dispatchers.Default)
+    }
+
+    private val noPhoto = PhotoModel()
+    private val _photo = MutableLiveData(noPhoto)
+    val photo: LiveData<PhotoModel>
+        get() = _photo
 
     init {
         loadPosts()
     }
 
-    fun loadPosts() {
-        _data.value = FeedModel(loading = true)
-        repository.getAllAsync(object : PostRepository.GetAllCallback {
-            override fun onSuccess(posts: List<Post>) {
-                _data.postValue(FeedModel(posts = posts, empty = posts.isEmpty()))
-            }
+    fun loadPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.getAll()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
 
-            override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+    fun loadNewPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.getNewPosts()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
+    fun refreshPosts() = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(refreshing = true)
+            repository.getAll()
+            _dataState.value = FeedModelState()
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
+
+    fun retrySave(post: Post?) {
+        viewModelScope.launch {
+            try {
+                if (post != null) {
+                    PostApi.retrofitService.save(post)
+                    refreshPosts()
+                }
+            } catch (e: Exception) {
+                _dataState.value =
+                    FeedModelState(error = true, retryType = RetryType.SAVE, retryPost = post)
             }
-        })
+        }
     }
 
     fun save() {
         edited.value?.let {
-            repository.save(it, object : PostRepository.PostCallback {
-                override fun onSuccess(post: Post) {
-                    _postCreated.postValue(Unit)
-//                    repository.saveDraft(null) //на сервере не реализован черновик
+            _postCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    when(_photo.value){
+                        noPhoto -> repository.save(it)
+                        else -> _photo.value?.file?.let { file ->
+                            repository.saveWithAttachment(it, MediaUpload(file))
+                        }
+                    }
+                    _dataState.value = FeedModelState()
+                    edited.value = emptyPost
+                    _photo.value = noPhoto
+                } catch (e: Exception) {
+                    _dataState.value = FeedModelState(error = true)
                 }
-
-                override fun onError(e: Exception) {
-                    _data.postValue(_data.value?.copy(posts = old))
-                }
-            })
+            }
         }
-        edited.value = emptyPost
+//        edited.value = emptyPost
+//        _photo.value = noPhoto
+
     }
 
     fun changeContent(content: String) {
@@ -79,66 +154,48 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = post
     }
 
-    fun likeById(id: Long) {
-        repository.likedById(id, object : PostRepository.PostCallback {
-            override fun onSuccess(post: Post) {
-                _data.postValue(
-                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                        .map {
-                            if (it.id == id) post else it
-                        }
-                    )
-                )
-            }
-
-            override fun onError(e: Exception) {
-                _data.postValue(_data.value?.copy(posts = old))
-            }
-        })
-    }
-
-
-    fun unlikeById(id: Long) {
-        repository.unlikeById(id, object : PostRepository.PostCallback {
-            override fun onSuccess(post: Post) {
-                _data.postValue(
-                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                        .map {
-                            if (it.id == id) post else it
-                        }
-                    )
-                )
-            }
-
-            override fun onError(e: Exception) {
-                _data.postValue(_data.value?.copy(posts = old))
-            }
-        })
-    }
-
-    fun shareById(id: Long) = repository.shareById(id)
-    fun removeById(id: Long) {
-        repository.removeById(id, object : PostRepository.IdCall {
-            override fun onSuccess(id: Long) {
-                _data.postValue(
-                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
-                        .filter { it.id != id }
-                    )
-                )
-            }
-
-            override fun onError(e: Exception) {
-                _data.postValue(_data.value?.copy(posts = old))
-            }
-        })
-
-
-        fun cancelEditing() = edited.value?.let {
-//        repository.cancelEditing(it)
+    fun likeById(id: Long)  = viewModelScope.launch {
+        try {
+            repository.likedById(id)
+        } catch (e: Exception) {
+            _dataState.value =
+                FeedModelState(error = true, retryType = RetryType.LIKE, retryId = id)
         }
+    }
+
+    fun unlikeById(id: Long)= viewModelScope.launch {
+        try {
+            repository.unlikeById(id)
+        } catch (e: Exception) {
+            _dataState.value =
+                FeedModelState(error = true, retryType = RetryType.UNLIKE, retryId = id)
+        }
+    }
+
+    fun shareById(id: Long) {
+//            repository.shareById(id)
+    }
+
+    fun removeById(id: Long)  = viewModelScope.launch {
+        try {
+            repository.removeById(id)
+        } catch (e: Exception) {
+            _dataState.value =
+                FeedModelState(error = true, retryType = RetryType.REMOVE, retryId = id)
+        }
+    }
+
+    fun changePhoto(uri: Uri?, file: File?) {
+        _photo.value = PhotoModel(uri, file)
+    }
+
+
+    fun cancelEditing() = edited.value?.let {
+//        repository.cancelEditing(it)
+    }
+
 
 //    fun saveDraft(draft: String?) = repository.saveDraft(draft)
 //    fun getDraft(): String? = repository.getDraft()
 
-    }
 }

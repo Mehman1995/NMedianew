@@ -146,7 +146,8 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier_videoView" />
+        app:layout_constraintTop_toBottomOf="@id/barrier_videoView"
+        />
 
     <ImageButton
         android:id="@+id/play"
@@ -172,7 +173,7 @@
         android:layout_height="270dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier_imageView" />
 

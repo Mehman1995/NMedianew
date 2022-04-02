@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="edit_notification_textColor">#57ACEF</color>
+    <color name="new_entry_color">#4B88C9</color>
+    <color name="divider_color">#ccc</color>
 </resources>

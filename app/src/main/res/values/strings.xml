@@ -13,4 +13,18 @@
     <string name="error_loading">Something went wrong. Try again later</string>
     <string name="retry_loading">Retry</string>
     <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="new_posts">New posts</string>
+    <string name="description_photo">Photo</string>
+    <string name="description_select_photo">Select photo</string>
+    <string name="description_take_photo">Take photo</string>
+    <string name="remove">Remove</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="repeatPassword">Repeat the password</string>
+    <string name="error_auth">Invalid username or password</string>
+    <string name="error_pass_mismatch">Password mismatch</string>
 </resources>
