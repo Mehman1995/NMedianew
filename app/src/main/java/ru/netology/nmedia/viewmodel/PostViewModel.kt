@@ -11,8 +11,10 @@ import ru.netology.nmedia.utils.SingleLiveEvent
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApi
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.MediaUpload
 import ru.netology.nmedia.enumeration.RetryType
@@ -24,6 +26,7 @@ private val emptyPost = Post(
     id = 0,
     author = "",
     authorAvatar = "",
+    authorId = 0,
     content = "",
     published = "",
     likes = 0,
@@ -36,14 +39,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao())
 
-//    private val _data = repository.data.map { FeedModel(posts = it, empty = it.isEmpty()) }
-//    val data: LiveData<FeedModel>
-//        get() = _data.asLiveData(Dispatchers.Default)
-    //на вебинаре было по другому, если чо исправить
-
-    val data: LiveData<FeedModel> = repository.data
-        .map(::FeedModel)
-        .asLiveData(Dispatchers.Default)
+    val data: LiveData<FeedModel> = AppAuth.getInstance()
+        .authStateFlow
+        .flatMapLatest { (myId, _) ->
+            repository.data
+                .map { posts ->
+                    FeedModel(
+                        posts.map { it.copy(ownedByMe = it.authorId == myId) },
+                        posts.isEmpty()
+                    )
+                }
+        }.asLiveData(Dispatchers.Default)
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
