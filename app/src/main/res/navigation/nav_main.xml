@@ -19,6 +19,10 @@
             android:id="@+id/action_feedFragment_to_singlePost"
             app:destination="@id/singlePostFragment"
             app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_feedFragment_to_singleImageFragment"
+            app:destination="@id/singleImageFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
@@ -40,5 +44,15 @@
         <action
             android:id="@+id/action_singlePostFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_singlePostFragment_to_singleImageFragment"
+            app:destination="@id/singleImageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/singleImageFragment"
+        android:name="ru.netology.nmedia.SingleImageFragment"
+        android:label="fragment_single_image"
+        tools:layout="@layout/fragment_single_image" >
     </fragment>
 </navigation>

@@ -7,13 +7,17 @@
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_netology.xml" value="0.27037037037037037" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_ok_24.xml" value="0.27037037037037037" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/activity_app.xml" value="0.1" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/card_post.xml" value="0.2558876811594203" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_feed.xml" value="0.1" />
-        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_new_post.xml" value="0.13272543059777103" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_new_post.xml" value="0.25" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_image.xml" value="0.24270833333333333" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_post.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/menu/menu_new_post.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/menu/post_options.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Mehman/AndroidStudioProjects/NMedia-Android/app/src/main/res/layout/card_post.xml" value="0.14" />
+        <entry key="..\:/Users/Mehman/AndroidStudioProjects/NMedia-Android/app/src/main/res/layout/fragment_new_post.xml" value="0.22" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="14" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="14" project-jdk-type="JavaSDK" />
 </project>

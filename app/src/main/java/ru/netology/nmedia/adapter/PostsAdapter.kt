@@ -23,6 +23,7 @@ interface PostCallback {
     fun edit(post: Post)
     fun onVideo(post: Post)
     fun onPost(post: Post)
+    fun onImage(post: Post)
 }
 
 class PostsAdapter(private val postCallback: PostCallback) :
@@ -64,63 +65,70 @@ class PostViewHolder(
                 .into(avatar)
 
 
-                when (post.attachment?.type) {
-                    AttachmentType.IMAGE -> {
-                        Glide.with(viewForImage)
-                            .load("http://10.0.2.2:9999/images/${post.attachment?.url}")
-                            .timeout(10_000)
-                            .into(viewForImage)
-                    }
+            when (post.attachment?.type) {
+                AttachmentType.IMAGE -> {
+                    Glide.with(viewForImage)
+                        .load("http://10.0.2.2:9999/media/${post.attachment?.url}")
+                        .timeout(10_000)
+                        .into(viewForImage)
                 }
+            }
             viewForImage.isVisible = post.attachment?.type == AttachmentType.IMAGE
 
 
-            if (!post.video.isNullOrBlank()) group.visibility = View.VISIBLE
 
-            like.setOnClickListener {
-                postCallback.onLike(post)
+                if (!post.video.isNullOrBlank()) {
+                    group.visibility = View.VISIBLE
+                }
+
+                like.setOnClickListener {
+                    postCallback.onLike(post)
+                }
+
+                share.setOnClickListener {
+                    postCallback.onShare(post)
+                }
+
+                play.setOnClickListener {
+                    postCallback.onVideo(post)
+                }
+
+                viewForVideo.setOnClickListener {
+                    postCallback.onVideo(post)
+                }
+
+                content.setOnClickListener {
+                    postCallback.onPost(post)
+                }
+
+            viewForImage.setOnClickListener {
+                postCallback.onImage(post)
             }
 
-            share.setOnClickListener {
-                postCallback.onShare(post)
-            }
-
-            play.setOnClickListener {
-                postCallback.onVideo(post)
-            }
-
-            viewForVideo.setOnClickListener {
-                postCallback.onVideo(post)
-            }
-
-            content.setOnClickListener {
-                postCallback.onPost(post)
-            }
-
-            menu.setOnClickListener {
-                PopupMenu(it.context, it).apply {
-                    inflate(R.menu.post_options)
-                    setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.post_remove -> {
-                                postCallback.remove(post)
-                                true
+                menu.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.post_options)
+                        setOnMenuItemClickListener { menuItem ->
+                            when (menuItem.itemId) {
+                                R.id.post_remove -> {
+                                    postCallback.remove(post)
+                                    true
+                                }
+                                R.id.post_edit -> {
+                                    postCallback.edit(post)
+                                    true
+                                }
+                                else -> false
                             }
-                            R.id.post_edit -> {
-                                postCallback.edit(post)
-                                true
-                            }
-                            else -> false
                         }
-                    }
-                }.show()
+                    }.show()
+                }
+
+
             }
-
-
-
         }
     }
-}
+
 
 class PostsDiffCallback : DiffUtil.ItemCallback<Post>() {
 

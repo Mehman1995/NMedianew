@@ -1,5 +1,6 @@
 package ru.netology.nmedia.dto
 
+
 data class Post(
     val id: Long,
     val author: String,
@@ -10,14 +11,14 @@ data class Post(
     val likedByMe: Boolean = false,
     val share: Boolean = false,
     val sharesCount: Int = 0,
-    val video: String = "",
     var attachment: Attachment? = null,
-    var viewed: Boolean = false
+    var viewed: Boolean = false,
+    val video: String = ""
 )
 
 data class Attachment(
     val url: String,
-    val description: String,
+    val description: String = "",
     val type: AttachmentType,
 )
 

@@ -5,6 +5,7 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import ru.netology.nmedia.entity.DraftEntity
 import kotlinx.coroutines.flow.Flow
+import ru.netology.nmedia.dto.AttachmentType
 
 
 import ru.netology.nmedia.entity.PostEntity
@@ -52,4 +53,11 @@ interface PostDao {
     @Query("UPDATE PostEntity SET viewed = 1 WHERE viewed = 0")
     suspend fun setPostsViewed()
 
+}
+
+class Converters {
+    @TypeConverter
+    fun toAttachmentType(value: String) = enumValueOf<AttachmentType>(value)
+    @TypeConverter
+    fun fromAttachmentType(value: AttachmentType) = value.name
 }

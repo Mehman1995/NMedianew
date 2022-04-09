@@ -1,5 +1,6 @@
 package ru.netology.nmedia.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -19,8 +20,10 @@ data class PostEntity(
     val likedByMe: Boolean = false,
     val share: Boolean = false,
     val sharesCount: Int = 0,
-    val video: String? = "",
-    val viewed: Boolean = false
+    @Embedded
+    var attachment: AttachmentEmbeddable?,
+    val viewed: Boolean = false,
+    val video: String? = ""
 ) {
     fun toDto() =
         Post(
@@ -32,7 +35,8 @@ data class PostEntity(
             likesCount,
             likedByMe,
             share,
-            sharesCount
+            sharesCount,
+            attachment?.toDto()
         )
 
     companion object {
@@ -47,8 +51,10 @@ data class PostEntity(
                 post.likedByMe,
                 post.share,
                 post.sharesCount,
-                post.video,
-                post.viewed
+//                post.video,
+                AttachmentEmbeddable.fromDto(post.attachment),
+                post.viewed,
+                post.video
             )
     }
 }
@@ -59,6 +65,16 @@ data class DraftEntity(
     val id: Long,
     val content: String
 )
+
+data class AttachmentEmbeddable(var url: String, var type: AttachmentType) {
+    fun toDto() = Attachment(url = url, type = type)
+
+    companion object {
+        fun fromDto(dto: Attachment?) = dto?.let {
+            AttachmentEmbeddable(it.url, it.type)
+        }
+    }
+}
 
 fun List<PostEntity>.toDto() = map(PostEntity::toDto)
 fun List<Post>.toEntity() = map(PostEntity::fromDto)

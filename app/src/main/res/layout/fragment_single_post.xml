@@ -19,9 +19,7 @@
         android:layout_marginBottom="@dimen/indent"
         app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_netology"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
@@ -90,11 +88,19 @@
         />
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier_icon"
+        android:id="@+id/barrier_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="view_for_video"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="view_for_image"
         />
 
     <com.google.android.material.button.MaterialButton
@@ -144,7 +150,8 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier_videoView" />
+        app:layout_constraintTop_toBottomOf="@id/barrier_videoView"
+        />
 
     <ImageButton
         android:id="@+id/play"
@@ -163,6 +170,19 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="view_for_video, play" />
+
+    <ImageView
+        android:id="@+id/view_for_image"
+        android:layout_width="372dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier_imageView" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
