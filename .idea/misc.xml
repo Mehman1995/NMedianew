@@ -3,21 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_avatar_placeholder.xml" value="0.1984375" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.1984375" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2890625" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_like_24dp.xml" value="0.27037037037037037" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_netology.xml" value="0.27037037037037037" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_notification.xml" value="0.15625" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/drawable/ic_ok_24.xml" value="0.27037037037037037" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/activity_app.xml" value="0.1" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/card_auth.xml" value="0.33" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/card_post.xml" value="0.2558876811594203" />
-        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_feed.xml" value="0.1" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_feed.xml" value="0.22" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_new_post.xml" value="0.25" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_image.xml" value="0.24270833333333333" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/fragment_single_post.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/sign_in_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/layout/sign_up_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/menu/menu_main.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/menu/menu_new_post.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/menu/post_options.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Mehman/AndroidStudioProjects/NMedia-Android/app/src/main/res/layout/card_post.xml" value="0.14" />
-        <entry key="..\:/Users/Mehman/AndroidStudioProjects/NMedia-Android/app/src/main/res/layout/fragment_new_post.xml" value="0.22" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2890625" />
+        <entry key="..\:/Users/Admin/Desktop/Android Studio/NMedia-thread/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2890625" />
+        <entry key="..\:/Users/Mehman/AndroidStudioProjects/NMedia-Android/app/src/main/res/drawable/ic_avatar_placeholder.xml" value="0.1735" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="14" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="14" project-jdk-type="JavaSDK" />
 </project>
