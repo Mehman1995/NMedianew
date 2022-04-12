@@ -29,6 +29,5 @@ class SignInViewModel : ViewModel() {
                 _dataState.postValue(FeedModelState(errorLogin = true))
             }
         }
-
     }
 }

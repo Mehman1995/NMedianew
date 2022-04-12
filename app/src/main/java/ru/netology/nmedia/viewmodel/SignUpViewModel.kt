@@ -28,9 +28,5 @@ class SignUpViewModel : ViewModel() {
                 _dataState.postValue(FeedModelState(errorRegistration = true))
             }
         }
-
     }
-
-
-
 }

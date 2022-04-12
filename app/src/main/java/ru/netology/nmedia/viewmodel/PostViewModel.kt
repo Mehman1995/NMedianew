@@ -193,8 +193,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 //        repository.cancelEditing(it)
     }
 
-
 //    fun saveDraft(draft: String?) = repository.saveDraft(draft)
 //    fun getDraft(): String? = repository.getDraft()
-
 }

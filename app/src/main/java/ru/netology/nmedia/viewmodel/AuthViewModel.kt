@@ -14,4 +14,5 @@ class AuthViewModel : ViewModel() {
 
     val authenticated: Boolean
         get() = AppAuth.getInstance().authStateFlow.value.id != 0L
+
 }
