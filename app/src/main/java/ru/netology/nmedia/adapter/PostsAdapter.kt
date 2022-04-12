@@ -56,6 +56,9 @@ class PostViewHolder(
             share.text = Utils.reductionInNumbers(post.sharesCount)
             like.isChecked = post.likedByMe
 
+            menu.visibility = if (post.ownedByMe) View.VISIBLE else View.INVISIBLE
+
+
             Glide.with(avatar)
                 .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
                 .circleCrop()
@@ -108,6 +111,7 @@ class PostViewHolder(
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.post_options)
+                        menu.setGroupVisible(R.id.owned, post.ownedByMe)
                         setOnMenuItemClickListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.post_remove -> {

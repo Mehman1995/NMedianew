@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.MediaUpload
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.User
 import ru.netology.nmedia.entity.DraftEntity
 import java.io.File
 import java.net.URI
@@ -24,5 +25,6 @@ interface PostRepository {
    suspend fun getNewPosts()
    suspend fun saveWithAttachment(post: Post, upload: MediaUpload)
    suspend fun upload(upload: MediaUpload) : Media
+
 }
 

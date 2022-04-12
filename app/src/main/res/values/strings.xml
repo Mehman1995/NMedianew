@@ -18,4 +18,18 @@
     <string name="description_select_photo">Select photo</string>
     <string name="description_take_photo">Take photo</string>
     <string name="remove">Remove</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="repeatPassword">Repeat the password</string>
+    <string name="error_auth">Invalid username or password</string>
+    <string name="error_pass_mismatch">Password mismatch</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="notification_user_liked">User %1$s liked %2$s \'s post</string>
+    <string name="notification_user_new_post">User %1$s published a post: %2$s </string>
+    <string name="notification_user_login">A user came in with an id %1$s </string>
 </resources>

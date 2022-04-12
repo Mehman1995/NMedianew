@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/feedFragment"
-        android:name="ru.netology.nmedia.FeedFragment"
+        android:name="ru.netology.nmedia.activity.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
@@ -22,20 +22,29 @@
         <action
             android:id="@+id/action_feedFragment_to_singleImageFragment"
             app:destination="@id/singleImageFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_authFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
-        android:name="ru.netology.nmedia.NewPostFragment"
+        android:name="ru.netology.nmedia.activity.NewPostFragment"
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_new_post" >
         <action
             android:id="@+id/action_newPostFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_newPostFragment_to_authFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/singlePostFragment"
-        android:name="ru.netology.nmedia.SinglePostFragment"
+        android:name="ru.netology.nmedia.activity.SinglePostFragment"
         android:label="fragment_single_post"
         tools:layout="@layout/fragment_single_post" >
         <action
@@ -51,8 +60,32 @@
 
     <fragment
         android:id="@+id/singleImageFragment"
-        android:name="ru.netology.nmedia.SingleImageFragment"
+        android:name="ru.netology.nmedia.activity.SingleImageFragment"
         android:label="fragment_single_image"
         tools:layout="@layout/fragment_single_image" >
     </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="ru.netology.nmedia.activity.SignInFragment"
+        android:label="card_auth"
+        tools:layout="@layout/sign_in_fragment" >
+        <action
+            android:id="@+id/action_authFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@+id/feedFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="ru.netology.nmedia.activity.SignUpFragment"
+        android:label="SignUpFragment" />
 </navigation>
