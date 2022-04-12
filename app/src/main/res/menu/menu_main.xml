@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:id="@+id/unauthenticated">
+
+    <item android:title="@string/sign_in" android:id="@+id/sign_in" app:showAsAction="never"/>
+
+    <item android:title="@string/sign_up" android:id="@+id/sign_up" app:showAsAction="never"/>
+
+</group>
+
+
+    <group android:id="@+id/authenticated">
+
+    <item android:title="@string/sign_out" android:id="@+id/sign_out" app:showAsAction="never"/>
+
+</group>
+
+</menu>
