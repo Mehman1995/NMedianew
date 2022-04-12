@@ -19,13 +19,4 @@
     <string name="description_take_photo">Сделать фото</string>
     <string name="description_photo">Фото</string>
     <string name="remove">Удалить</string>
-    <string name="sign_in">Войти</string>
-    <string name="sign_out">Выйти</string>
-    <string name="sign_up">Зарегистрироваться</string>
-    <string name="login">Логин</string>
-    <string name="password">Пароль</string>
-    <string name="error_auth">"Неверные логин или пароль "</string>
-    <string name="name">Имя</string>
-    <string name="repeatPassword">Повторите пароль</string>
-    <string name="error_pass_mismatch">Пароли не совпадают</string>
 </resources>

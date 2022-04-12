@@ -6,7 +6,6 @@ import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toEntity
 import androidx.lifecycle.map
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -27,7 +26,6 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
     override val data: Flow<List<Post>> = postDao.getAll()
         .map { it.toDto() }
         .flowOn(Dispatchers.Default)
-
 
     override suspend fun getAll() {
         try {
@@ -93,6 +91,7 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
+            println("ellina $e")
             throw UnknownError()
         }
     }
